@@ -96,4 +96,5 @@ public class MainMenuController implements Initializable {
     void OnActionExit(ActionEvent event) {
         System.exit(0);
     }
+
 }

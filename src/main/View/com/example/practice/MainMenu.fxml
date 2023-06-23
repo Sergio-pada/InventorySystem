@@ -37,7 +37,7 @@
                     <columns>
                       <TableColumn fx:id="PartIdCol" prefWidth="100.0" text="Part ID" />
                       <TableColumn fx:id="PartNameCol" prefWidth="100.0" text="Part Name" />
-                        <TableColumn fx:id="PartInvCol" prefWidth="100.0" text="Inventory Level" />
+                        <TableColumn fx:id="PartStockCol" prefWidth="100.0" text="Inventory Level" />
                         <TableColumn fx:id="PartPriceCol" prefWidth="100.0" text="Price Per Unit" />
                     </columns>
                   </TableView>
@@ -67,7 +67,7 @@
                     <columns>
                       <TableColumn fx:id="ProductIdCol" prefWidth="100.0" text="Product ID" />
                       <TableColumn fx:id="ProductNameCol" prefWidth="100.0" text="Product Name" />
-                        <TableColumn fx:id="ProductInvCol" prefWidth="100.0" text="Inventory Level" />
+                        <TableColumn fx:id="ProductStockCol" prefWidth="100.0" text="Inventory Level" />
                         <TableColumn fx:id="ProductPriceCol" prefWidth="100.0" text="Price Per Unit" />
                     </columns>
                   </TableView>

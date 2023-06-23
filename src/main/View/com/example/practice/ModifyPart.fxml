@@ -17,7 +17,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Label>
-            <RadioButton fx:id="InHouseRBtn" mnemonicParsing="false" text="In-House">
+            <RadioButton fx:id="InHouseRBtn" mnemonicParsing="false" onAction="#labelChange" selected="true" text="In-House">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
@@ -25,7 +25,7 @@
                   <ToggleGroup fx:id="modifyPartTG" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="OutsourcedRBtn" mnemonicParsing="false" text="Outsourced" toggleGroup="$modifyPartTG">
+            <RadioButton fx:id="OutsourcedRBtn" mnemonicParsing="false" onAction="#labelChange" text="Outsourced" toggleGroup="$modifyPartTG">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
@@ -33,8 +33,8 @@
          </children></HBox>
       <GridPane alignment="CENTER" layoutY="76.0" prefHeight="301.0" prefWidth="493.0" AnchorPane.leftAnchor="30.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="57.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.0" minWidth="10.0" prefWidth="154.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="84.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="198.0" minWidth="10.0" prefWidth="134.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="83.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.0" minWidth="10.0" prefWidth="186.0" />
         </columnConstraints>
@@ -43,8 +43,8 @@
           <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label alignment="CENTER" text="ID" />
@@ -52,10 +52,10 @@
             <Label text="Inventory" GridPane.rowIndex="2" />
             <Label text="Price/ Cost" GridPane.rowIndex="3" />
             <Label text="Max" GridPane.rowIndex="4" />
-            <Label fx:id="MacIdComNameLbl" text="Label" GridPane.rowIndex="5" />
+            <Label fx:id="MacIdComNameLbl" text="Machine ID" GridPane.rowIndex="5" />
             <TextField fx:id="PartIdTxt" GridPane.columnIndex="1" />
             <TextField fx:id="PartNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="PartInvTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="PartStockTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="PartPriceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="PartMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="MacIdComNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />

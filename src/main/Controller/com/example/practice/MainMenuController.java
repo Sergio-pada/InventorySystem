@@ -1,5 +1,7 @@
 package com.example.practice;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,38 +23,61 @@ public class MainMenuController implements Initializable {
     Stage stage;
     Parent scene;
 
+    //Parts Table
     @FXML
     private TextField SearchPartTxt;
     @FXML
-    private TableView<?> PartsTableView;
+    private TableView<Part> PartsTableView;
     @FXML
-    private TableColumn<?,?> PartIdCol;
+    private TableColumn<Part,Integer> PartIdCol;
     @FXML
-    private TableColumn<?,?> PartNameCol;
+    private TableColumn<Part,String> PartNameCol;
+
     @FXML
-    private TableColumn<?,?> PartInvCol;
+    private TableColumn<Part,Integer> PartStockCol;
     @FXML
-    private TableColumn<?,?> PartPriceCol;
+    private TableColumn<Part,Double> PartPriceCol;
+
+    //Products Table
     @FXML
     private TextField SearchProductTxt;
     @FXML
-    private TableView<?> ProductsTableView;
+    private TableView<Product> ProductsTableView;
     @FXML
-    private TableColumn<?,?> ProductIdCol;
+    private TableColumn<Product, Integer> ProductIdCol;
     @FXML
-    private TableColumn<?,?> ProductNameCol;
+    private TableColumn<Product, String> ProductNameCol;
     @FXML
-    private TableColumn<?,?> ProductInvCol;
+    private TableColumn<Product,Integer> ProductStockCol;
     @FXML
-    private TableColumn<?,?> ProductPriceCol;
+    private TableColumn<Product, Double> ProductPriceCol;
+    private ObservableList<Part> productParts = FXCollections.observableArrayList();
+    private ObservableList<Part> allParts = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized");
-    }
+        //Associating getAllParts() observable list with PartsTableView
+        PartsTableView.setItems(Inventory.getAllParts());
 
+        //Assigning column data for PartsTableView
+        PartIdCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        PartNameCol.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        PartPriceCol.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        PartStockCol.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+
+        //Associating getAllProducts() observable list with ProductsTableView
+        ProductsTableView.setItems(Inventory.getAllProducts());
+
+        //Assigning column data for ProductsTableView
+        ProductIdCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
+        ProductNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        ProductPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        ProductStockCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
+    }
     @FXML
     void onActionDisplayModifyPart(ActionEvent event) throws IOException {
+        //Scene Switch to ModifyPart
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/ModifyPart.fxml"));
         stage.setScene(new Scene(scene));
@@ -65,6 +91,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDisplayAddPart(ActionEvent event) throws IOException {
+        //Scene Switch to AddPart
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/AddPart.fxml"));
         stage.setScene(new Scene(scene));
@@ -78,6 +105,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDisplayAddProduct(ActionEvent event) throws IOException {
+        //Scene Switch to AddProduct
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/AddProduct.fxml"));
         stage.setScene(new Scene(scene));
@@ -86,6 +114,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDisplayModifyProduct(ActionEvent event) throws IOException {
+        //Scene Switch to ModifyProduct
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/ModifyProduct.fxml"));
         stage.setScene(new Scene(scene));
@@ -96,5 +125,8 @@ public class MainMenuController implements Initializable {
     void OnActionExit(ActionEvent event) {
         System.exit(0);
     }
+
+
+
 
 }

@@ -29,7 +29,7 @@ public class ModifyPartController {
     @FXML
     private TextField PartNameTxt;
     @FXML
-    private TextField PartInvTxt;
+    private TextField PartStockTxt;
     @FXML
     private TextField PartPriceTxt;
     @FXML
@@ -40,7 +40,43 @@ public class ModifyPartController {
     private TextField PartMinTxt;
 
     @FXML
-    void onActionSave(ActionEvent event) {
+    void labelChange(){
+        if (InHouseRBtn.isSelected()){
+            MacIdComNameLbl.setText("Machine ID");
+        }
+        if(OutsourcedRBtn.isSelected()){
+            MacIdComNameLbl.setText("Company Name");
+        }
+    }
+    @FXML
+    void onActionSave(ActionEvent event) throws IOException {
+        //Retrieving Input from TextFields:
+        int id = Integer.parseInt(PartIdTxt.getText());
+        String name = PartNameTxt.getText();
+        int stock = Integer.parseInt(PartStockTxt.getText());
+        double price = Double.parseDouble(PartPriceTxt.getText());
+        int max = Integer.parseInt(PartMaxTxt.getText());
+        int min = Integer.parseInt(PartMinTxt.getText());
+        boolean isInHouse;
+
+        //Part Object Creation On Save
+        /*
+        FIND OUT HOW TO REMOVE OUTDATED OBJECT ON SAVE
+         */
+        if(InHouseRBtn.isSelected()) {
+            int machineId = Integer.parseInt(MacIdComNameTxt.getText());
+            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+        } else {
+            String companyName = MacIdComNameTxt.getText();
+            Inventory.addPart(new OutSourced(id, name, price, stock, min, max, companyName));
+        }
+
+        //Return to Main Menu On Save
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
     }
 
     @FXML

@@ -31,7 +31,7 @@
                   <Label text="Max" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                   <TextField fx:id="AddProductIDTxt" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
                   <TextField fx:id="AddProductNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="AddProductInvTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="AddProductStockTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="AddProductPriceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="AddProductMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                   <TextField fx:id="AddProductMinTxt" prefHeight="26.0" prefWidth="123.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="TOP" />
@@ -53,7 +53,7 @@
                     <columns>
                       <TableColumn fx:id="PartIdCol1" prefWidth="103.0" text="Part ID" />
                       <TableColumn fx:id="PartNameCol1" prefWidth="99.0" text="Part Name" />
-                        <TableColumn fx:id="PartInvCol1" prefWidth="93.0" text="Inventory Level" />
+                        <TableColumn fx:id="PartStockCol1" prefWidth="93.0" text="Inventory Level" />
                         <TableColumn fx:id="PartPriceCol1" minWidth="50.0" prefWidth="112.0" text="Price/ Cost per Unit" />
                     </columns>
                      <VBox.margin>
@@ -69,7 +69,7 @@
                     <columns>
                       <TableColumn fx:id="PartIdCol2" prefWidth="94.0" text="Part ID" />
                       <TableColumn fx:id="PartNameCol2" prefWidth="113.0" text="Part Name" />
-                        <TableColumn fx:id="PartInvCol2" prefWidth="89.0" text="Inventory Level" />
+                        <TableColumn fx:id="PartStockCol2" prefWidth="89.0" text="Inventory Level" />
                         <TableColumn fx:id="PartPriceCol2" prefWidth="110.0" text="Price/ Cost per Unit" />
                     </columns>
                      <VBox.margin>

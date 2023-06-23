@@ -1,19 +1,25 @@
 package com.example.practice;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ModifyProductController {
+public class ModifyProductController implements Initializable {
     Stage stage;
     Parent scene;
 
@@ -22,7 +28,7 @@ public class ModifyProductController {
     @FXML
     private TextField AddProductNameTxt;
     @FXML
-    private TextField AddProductInvTxt;
+    private TextField AddProductStockTxt;
     @FXML
     private TextField AddProductPriceTxt;
     @FXML
@@ -32,15 +38,15 @@ public class ModifyProductController {
     @FXML
     private TextField AddProductSearchTxt;
     @FXML
-    private TableView<?> AddProductTableView;
+    private TableView<Part> AddProductTableView;
     @FXML
     private TableColumn<?,?> PartIdCol1;
     @FXML
-    private TableView<?> RemoveProductTableView;
+    private TableView<Part> RemoveProductTableView;
     @FXML
     private TableColumn<?,?> PartNameCol1;
     @FXML
-    private TableColumn<?,?> PartInvCol1;
+    private TableColumn<?,?> PartStockCol1;
     @FXML
     private TableColumn<?,?> PartPriceCol1;
     @FXML
@@ -48,10 +54,11 @@ public class ModifyProductController {
     @FXML
     private TableColumn<?,?> PartNameCol2;
     @FXML
-    private TableColumn<?,?> PartInvCol2;
+    private TableColumn<?,?> PartStockCol2;
     @FXML
     private TableColumn<?,?> PartPriceCol2;
-
+    private ObservableList<Part> productParts = FXCollections.observableArrayList();
+    private ObservableList<Part> allParts = FXCollections.observableArrayList();
     @FXML
     void onActionAddProduct(ActionEvent event) {
     }
@@ -60,8 +67,27 @@ public class ModifyProductController {
     void onActionRemoveProduct(ActionEvent event) {
     }
 
+    /*
+    FIND OUT HOW TO REMOVE OUTDATED OBJECT ON SAVE
+     */
     @FXML
-    void onActionSave(ActionEvent event) {
+    void onActionSave(ActionEvent event) throws IOException {
+        int id = Integer.parseInt(AddProductIDTxt.getText());
+        String name = AddProductNameTxt.getText();
+        int stock = Integer.parseInt(AddProductStockTxt.getText());
+        double price = Double.parseDouble(AddProductPriceTxt.getText());
+        int max = Integer.parseInt(AddProductMaxTxt.getText());
+        int min = Integer.parseInt(AddProductMinTxt.getText());
+        boolean isInHouse;
+
+        Inventory.addProduct(new Product(id, name, price, stock, min, max));
+
+
+        //Return to Main Menu On Save
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
@@ -71,4 +97,27 @@ public class ModifyProductController {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        allParts = Inventory.getAllParts();
+
+        //Set Cell Values for All Parts Table
+        PartIdCol1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        PartNameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        PartStockCol1.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        PartPriceCol1.setCellValueFactory(new PropertyValueFactory<>("price"));
+        AddProductTableView.setItems(allParts);
+
+        //Set Cell Values for Product Parts Table
+        PartIdCol2.setCellValueFactory(new PropertyValueFactory<>("id"));
+        PartNameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
+        PartStockCol2.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        PartPriceCol2.setCellValueFactory(new PropertyValueFactory<>("price"));
+        RemoveProductTableView.setItems(productParts);
+
+
+    }
+
+
 }

@@ -8,15 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
@@ -32,11 +30,11 @@ public class MainMenuController implements Initializable {
     private TableColumn<Part,Integer> PartIdCol;
     @FXML
     private TableColumn<Part,String> PartNameCol;
-
     @FXML
     private TableColumn<Part,Integer> PartStockCol;
     @FXML
     private TableColumn<Part,Double> PartPriceCol;
+
 
     //Products Table
     @FXML
@@ -74,10 +72,18 @@ public class MainMenuController implements Initializable {
         ProductNameCol.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         ProductPriceCol.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
         ProductStockCol.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
+
+        /*
+        FUNCTION TESTING - REMOVE LATER
+         */
+//        Inventory.deletePart(Inventory.lookupPart(1));
+
     }
     @FXML
     void onActionDisplayModifyPart(ActionEvent event) throws IOException {
         //Scene Switch to ModifyPart
+
+
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/ModifyPart.fxml"));
         stage.setScene(new Scene(scene));
@@ -86,7 +92,22 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
-        System.out.println("Deleting Part");
+        Part selectedPart = PartsTableView.getSelectionModel().getSelectedItem();
+        if (selectedPart == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No part selected");
+            Optional<ButtonType> result = alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Parts");
+            alert.setContentText("Do you want to delete this part?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deletePart(selectedPart);
+            }
+        }
     }
 
     @FXML
@@ -100,7 +121,26 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
-        System.out.println("Deleting");
+        Product selectedProduct = ProductsTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No product selected");
+            Optional<ButtonType> result = alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Products");
+            alert.setContentText("Do you want to delete this product?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deleteProduct(selectedProduct);
+            }
+        }
+
+
+
     }
 
     @FXML

@@ -1,6 +1,8 @@
 package com.example.practice;
 
 public class InHouse extends Part {
+    public int machineId;
+
     private int getMachineId() {
         return machineId;
     }
@@ -9,7 +11,7 @@ public class InHouse extends Part {
         this.machineId = machineId;
     }
 
-    public int machineId;
+
 
     //Constructor
     public InHouse(int id, String name, double price, int stock, int min, int max, int machineId) {

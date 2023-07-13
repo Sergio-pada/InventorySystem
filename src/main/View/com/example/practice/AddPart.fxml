@@ -53,7 +53,7 @@
             <Label text="Price/ Cost" GridPane.rowIndex="3" />
             <Label text="Max" GridPane.rowIndex="4" />
             <Label fx:id="macIdCompNameLbl" text="Machine ID" GridPane.rowIndex="5" />
-            <TextField fx:id="AddPartIdTxt" GridPane.columnIndex="1" />
+            <TextField fx:id="AddPartIdTxt" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="AddPartNameIdTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="AddPartInventoryTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="AddPartPriceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />

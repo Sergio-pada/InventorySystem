@@ -172,6 +172,13 @@ void OnActionSearchParts(ActionEvent event) {
             if (part != null) {
                 results.add(part);
             }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Parts");
+                alert.setContentText("No part found");
+                alert.showAndWait();
+            }
+
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Parts");
@@ -194,6 +201,11 @@ void OnActionSearchParts(ActionEvent event) {
                 Product product = Inventory.lookupProduct(productID);
                 if (product != null) {
                     results.add(product);
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Products");
+                    alert.setContentText("No product found");
+                    alert.showAndWait();
                 }
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

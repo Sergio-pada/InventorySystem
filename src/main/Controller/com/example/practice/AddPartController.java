@@ -3,6 +3,7 @@ package com.example.practice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,8 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AddPartController {
+public class AddPartController implements Initializable {
     @FXML
     public Label macIdCompNameLbl;
     Stage stage;
@@ -36,6 +39,12 @@ public class AddPartController {
     private TextField AddPartLabelTxt;
     @FXML
     private TextField AddPartMinTxt;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        String id = String.valueOf(Inventory.getAllParts().size() + 1);
+        System.out.println(id);
+        AddPartIdTxt.setText(id);
+    }
 
 
     @FXML

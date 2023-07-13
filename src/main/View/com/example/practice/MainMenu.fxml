@@ -31,7 +31,7 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Label>
-                        <TextField fx:id="SearchPartTxt" prefHeight="26.0" prefWidth="183.0" promptText="Search part by ID or name" />
+                        <TextField fx:id="SearchPartTxt" onAction="#OnActionSearchParts" prefHeight="26.0" prefWidth="183.0" promptText="Search part by ID or name" />
                      </children></HBox>
                   <TableView fx:id="PartsTableView" layoutX="108.0" layoutY="50.0" prefHeight="200.0" prefWidth="400.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                     <columns>
@@ -60,7 +60,7 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Label>
-                        <TextField fx:id="SearchProductTxt" prefHeight="26.0" prefWidth="183.0" promptText="Search product by ID or Name" />
+                        <TextField fx:id="SearchProductTxt" onAction="#OnActionSearchProducts" prefHeight="26.0" prefWidth="183.0" promptText="Search product by ID or Name" />
                      </children>
                   </HBox>
                   <TableView fx:id="ProductsTableView" layoutX="63.0" layoutY="46.0" prefHeight="200.0" prefWidth="400.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">

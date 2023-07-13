@@ -161,6 +161,51 @@ public class MainMenuController implements Initializable {
         stage.show();
     }
 
+@FXML
+void OnActionSearchParts(ActionEvent event) {
+    String searchText = SearchPartTxt.getText();
+    ObservableList<Part> results = Inventory.lookupPart(searchText);
+
+    if (results.isEmpty()) {
+        try {
+            int partID = Integer.parseInt(searchText);
+            Part part = Inventory.lookupPart(partID);
+            if (part != null) {
+                results.add(part);
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Parts");
+            alert.setContentText("No part found");
+            alert.showAndWait();
+        }
+    }
+
+    PartsTableView.setItems(results);
+}
+
+    @FXML
+    void OnActionSearchProducts(ActionEvent event) {
+        String searchText = SearchProductTxt.getText();
+        ObservableList<Product> results = Inventory.lookupProduct(searchText);
+
+        if (results.isEmpty()) {
+            try {
+                int productID = Integer.parseInt(searchText);
+                Product product = Inventory.lookupProduct(productID);
+                if (product != null) {
+                    results.add(product);
+                }
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Products");
+                alert.setContentText("No product found");
+                alert.showAndWait();
+            }
+        }
+
+        ProductsTableView.setItems(results);
+    }
     @FXML
     void OnActionExit(ActionEvent event) {
         System.exit(0);

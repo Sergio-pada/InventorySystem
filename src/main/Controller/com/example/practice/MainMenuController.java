@@ -165,7 +165,6 @@ public class MainMenuController implements Initializable {
 void OnActionSearchParts(ActionEvent event) {
     String searchText = SearchPartTxt.getText();
     ObservableList<Part> results = Inventory.lookupPart(searchText);
-
     if (results.isEmpty()) {
         try {
             int partID = Integer.parseInt(searchText);

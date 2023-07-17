@@ -76,7 +76,7 @@ public class MainMenuController implements Initializable {
         /*
         FUNCTION TESTING - REMOVE LATER
          */
-//        Inventory.deletePart(Inventory.lookupPart(1));
+
 
     }
     @FXML

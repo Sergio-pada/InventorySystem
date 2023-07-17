@@ -75,6 +75,7 @@ public class Product {
     public static void addAssociatedPart(Part part){
         associatedParts.add(part);
     }
+
     public static boolean removeAssociatedPart(Part selectedPart){
         associatedParts.remove(selectedPart);
         return true;
@@ -83,5 +84,9 @@ public class Product {
     public static ObservableList<Part> getAllAssociatedParts(){
         return associatedParts;
     }
-
+//    public static void clearList(){
+//        associatedParts.clear();
+//    }
 }
+
+

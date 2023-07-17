@@ -13,7 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddPartController implements Initializable {
@@ -39,12 +41,20 @@ public class AddPartController implements Initializable {
     private TextField AddPartLabelTxt;
     @FXML
     private TextField AddPartMinTxt;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String id = String.valueOf(Inventory.getAllParts().size() + 1);
-        System.out.println(id);
-        AddPartIdTxt.setText(id);
-    }
+        //Generate a unique id and set the id textbox
+        int maxId = 0;
+        for(Part part: Inventory.getAllParts()) {
+            if (part.getId() > maxId){
+                maxId = part.getId();
+            }
+        }
+        AddPartIdTxt.setText(String.valueOf(maxId + 1));
+        }
+
+
 
 
     @FXML
@@ -60,6 +70,7 @@ public class AddPartController implements Initializable {
     void onActionSavePart(ActionEvent event) throws IOException {
         //Retrieving Input from TextFields:
         int id = Integer.parseInt(AddPartIdTxt.getText());
+
         String name = AddPartNameIdTxt.getText();
         int stock = Integer.parseInt(AddPartInventoryTxt.getText());
         double price = Double.parseDouble(AddPartPriceTxt.getText());

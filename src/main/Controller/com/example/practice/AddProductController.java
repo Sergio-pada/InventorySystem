@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -20,6 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
+
     Stage stage;
     Parent scene;
     @FXML
@@ -39,36 +37,44 @@ public class AddProductController implements Initializable {
     @FXML
     private TableView<Part> AddProductTableView;
     @FXML
-    private TableColumn<?,?> PartIdCol1;
+    private TableColumn<Part,Integer> PartIdCol1;
 
     @FXML
-    private TableColumn<?,?> PartStockCol1;
+    private TableColumn<Part,Integer> PartStockCol1;
 
     @FXML
     private TableView<Part> RemoveProductTableView;
     @FXML
-    private TableColumn<?,?> PartNameCol1;
+    private TableColumn<Part,String> PartNameCol1;
     @FXML
-    private TableColumn<?,?> PartPriceCol1;
+    private TableColumn<Part,Double> PartPriceCol1;
     @FXML
-    private TableColumn<?,?> PartIdCol2;
+    private TableColumn<Part,Integer> PartIdCol2;
     @FXML
-    private TableColumn<?,?> PartNameCol2;
+    private TableColumn<Part,String> PartNameCol2;
     @FXML
-    private TableColumn<?,?> PartStockCol2;
+    private TableColumn<Part,Integer> PartStockCol2;
     @FXML
-    private TableColumn<?,?> PartPriceCol2;
+    private TableColumn<Part,Double> PartPriceCol2;
+
+    private ObservableList<Part> associatedPartsList = FXCollections.observableArrayList();
+
 
     //Observable Lists for Table Views
     private ObservableList<Part> productParts = FXCollections.observableArrayList();
     private ObservableList<Part> allParts = FXCollections.observableArrayList();
     @FXML
     void onActionAddProduct(ActionEvent event) {
-
+        Part selectedPart = AddProductTableView.getSelectionModel().getSelectedItem();
+        associatedPartsList.add(selectedPart);
+        RemoveProductTableView.setItems(associatedPartsList);
     }
 
     @FXML
     void onActionRemoveProduct(ActionEvent event){
+        Part selectedPart = RemoveProductTableView.getSelectionModel().getSelectedItem();
+        associatedPartsList.remove(selectedPart);
+        RemoveProductTableView.setItems(associatedPartsList);
     }
 
     /*
@@ -83,11 +89,12 @@ public class AddProductController implements Initializable {
         double price = Double.parseDouble(AddProductPriceTxt.getText());
         int max = Integer.parseInt(AddProductMaxTxt.getText());
         int min = Integer.parseInt(AddProductMinTxt.getText());
-        boolean isInHouse;
-
-        Inventory.addProduct(new Product(id, name, price, stock, min, max));
-
-
+        Product product = new Product(id, name, price, stock, min, max);
+        Inventory.addProduct(product);
+        for (Part part: associatedPartsList) {
+                product.addAssociatedPart(part);
+        }
+        System.out.println(product.getAllAssociatedParts());
         //Return to Main Menu On Save
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
@@ -103,24 +110,63 @@ public class AddProductController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
+    @FXML
+    void OnActionSearchParts(ActionEvent event) {
+        String searchText = AddProductSearchTxt.getText();
+        ObservableList<Part> results = Inventory.lookupPart(searchText);
+        if (results.isEmpty()) {
+            try {
+                int partID = Integer.parseInt(searchText);
+                Part part = Inventory.lookupPart(partID);
+                if (part != null) {
+                    results.add(part);
+                }
+                else{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Parts");
+                    alert.setContentText("No part found");
+                    alert.showAndWait();
+                }
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Parts");
+                alert.setContentText("No part found");
+                alert.showAndWait();
+            }
+        }
+
+        AddProductTableView.setItems(results);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Generate a unique id and set the id textbox
+        int maxId = 0;
+        for(Product product: Inventory.getAllProducts()) {
+            if (product.getId() > maxId){
+                maxId = product.getId();
+            }
+        }
+        AddProductIDTxt.setText(String.valueOf(maxId + 1));
 
-        allParts = Inventory.getAllParts();
+
 
         //Set Cell Values for All Parts Table
+        AddProductTableView.setItems(Inventory.getAllParts());
         PartIdCol1.setCellValueFactory(new PropertyValueFactory<>("id"));
         PartNameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
         PartStockCol1.setCellValueFactory(new PropertyValueFactory<>("stock"));
         PartPriceCol1.setCellValueFactory(new PropertyValueFactory<>("price"));
-        AddProductTableView.setItems(allParts);
+
 
         //Set Cell Values for Product Parts Table
+
+        RemoveProductTableView.setItems(associatedPartsList);
         PartIdCol2.setCellValueFactory(new PropertyValueFactory<>("id"));
         PartNameCol2.setCellValueFactory(new PropertyValueFactory<>("name"));
         PartStockCol2.setCellValueFactory(new PropertyValueFactory<>("stock"));
         PartPriceCol2.setCellValueFactory(new PropertyValueFactory<>("price"));
-        RemoveProductTableView.setItems(productParts);
 
 
     }

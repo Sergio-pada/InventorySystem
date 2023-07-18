@@ -3,14 +3,16 @@ package com.example.practice;
 public class InHouse extends Part {
     public int machineId;
 
-    private int getMachineId() {
-        return machineId;
-    }
+
+
+
     //Getter and Setter
     public void setMachineId(int machineId) {
         this.machineId = machineId;
     }
-
+    public int getMachineId() {
+        return machineId;
+    }
 
 
     //Constructor

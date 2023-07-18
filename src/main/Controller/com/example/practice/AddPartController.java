@@ -78,6 +78,7 @@ public class AddPartController implements Initializable {
         int min = Integer.parseInt(AddPartMinTxt.getText());
         boolean isInHouse;
 
+
         //Part Object Creation On Save
         if(AddPartInHouseRBtn.isSelected()) {
             int machineId = Integer.parseInt(AddPartLabelTxt.getText());

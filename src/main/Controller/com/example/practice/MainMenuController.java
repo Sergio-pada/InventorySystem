@@ -52,9 +52,24 @@ public class MainMenuController implements Initializable {
     private ObservableList<Part> productParts = FXCollections.observableArrayList();
     private ObservableList<Part> allParts = FXCollections.observableArrayList();
 
+    public static Part getPassedPart() {
+        return passedPart;
+    }
+
+    static Part passedPart;
+    public static Product getPassedProduct() {
+        return passedProduct;
+    }
+
+    static Product passedProduct;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized");
+
+
+
+
+
         //Associating getAllParts() observable list with PartsTableView
         PartsTableView.setItems(Inventory.getAllParts());
 
@@ -78,16 +93,19 @@ public class MainMenuController implements Initializable {
          */
 
 
+
     }
+
     @FXML
     void onActionDisplayModifyPart(ActionEvent event) throws IOException {
         //Scene Switch to ModifyPart
-
+        passedPart = PartsTableView.getSelectionModel().getSelectedItem();
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/ModifyPart.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+
     }
 
     @FXML
@@ -155,6 +173,7 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionDisplayModifyProduct(ActionEvent event) throws IOException {
         //Scene Switch to ModifyProduct
+        passedProduct = ProductsTableView.getSelectionModel().getSelectedItem();
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/ModifyProduct.fxml"));
         stage.setScene(new Scene(scene));

@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -59,19 +56,51 @@ public class ModifyProductController implements Initializable {
     private TableColumn<?,?> PartPriceCol2;
     private ObservableList<Part> productParts = FXCollections.observableArrayList();
     private ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private Product passedProduct = MainMenuController.getPassedProduct();
     @FXML
     void onActionAddProduct(ActionEvent event) {
+        Part selectedPart = AddProductTableView.getSelectionModel().getSelectedItem();
+        productParts.add(selectedPart);
+        RemoveProductTableView.setItems(productParts);
     }
 
     @FXML
     void onActionRemoveProduct(ActionEvent event) {
+        productParts.remove(RemoveProductTableView.getSelectionModel().getSelectedItem());
+    }
+    @FXML
+    void OnActionSearchParts(ActionEvent event) {
+        String searchText = AddProductSearchTxt.getText();
+        ObservableList<Part> results = Inventory.lookupPart(searchText);
+        if (results.isEmpty()) {
+            try {
+                int partID = Integer.parseInt(searchText);
+                Part part = Inventory.lookupPart(partID);
+                if (part != null) {
+                    results.add(part);
+                }
+                else{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Parts");
+                    alert.setContentText("No part found");
+                    alert.showAndWait();
+                }
+
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Parts");
+                alert.setContentText("No part found");
+                alert.showAndWait();
+            }
+        }
+
+        AddProductTableView.setItems(results);
     }
 
-    /*
-    FIND OUT HOW TO REMOVE OUTDATED OBJECT ON SAVE
-     */
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
+
+
         int id = Integer.parseInt(AddProductIDTxt.getText());
         String name = AddProductNameTxt.getText();
         int stock = Integer.parseInt(AddProductStockTxt.getText());
@@ -88,6 +117,7 @@ public class ModifyProductController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+        Inventory.deleteProduct(MainMenuController.getPassedProduct());
     }
 
     @FXML
@@ -99,7 +129,14 @@ public class ModifyProductController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        AddProductIDTxt.setText(String.valueOf(MainMenuController.getPassedProduct().getId()));
+        AddProductNameTxt.setText(MainMenuController.getPassedProduct().getName());
+        AddProductStockTxt.setText(String.valueOf(MainMenuController.getPassedProduct().getStock()));
+        AddProductPriceTxt.setText(String.valueOf(MainMenuController.getPassedProduct().getPrice()));
+        AddProductMaxTxt.setText(String.valueOf(MainMenuController.getPassedProduct().getMax()));
+        AddProductMinTxt.setText(String.valueOf(MainMenuController.getPassedProduct().getMin()));
 
+        productParts = passedProduct.getAllAssociatedParts();
         allParts = Inventory.getAllParts();
 
         //Set Cell Values for All Parts Table
@@ -108,6 +145,8 @@ public class ModifyProductController implements Initializable {
         PartStockCol1.setCellValueFactory(new PropertyValueFactory<>("stock"));
         PartPriceCol1.setCellValueFactory(new PropertyValueFactory<>("price"));
         AddProductTableView.setItems(allParts);
+
+
 
         //Set Cell Values for Product Parts Table
         PartIdCol2.setCellValueFactory(new PropertyValueFactory<>("id"));

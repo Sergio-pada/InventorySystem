@@ -84,9 +84,7 @@ public class Product {
     public static ObservableList<Part> getAllAssociatedParts(){
         return associatedParts;
     }
-//    public static void clearList(){
-//        associatedParts.clear();
-//    }
+
 }
 
 

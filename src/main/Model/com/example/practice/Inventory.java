@@ -12,16 +12,19 @@ public class Inventory {
         allParts.add(newPart);
     }
 
-
     public static void addProduct(Product newProduct) {
         allProducts.add(newProduct);
     }
+
+    //Get parts/products methods
     public static ObservableList<Part> getAllParts(){
         return allParts;
     }
     public static ObservableList<Product> getAllProducts(){
         return allProducts;
     }
+
+    //Search methods
     public static Part lookupPart(int partId) {
         for(Part part: Inventory.getAllParts()) {
             Part matchingPart;
@@ -32,6 +35,7 @@ public class Inventory {
         }
         return null;
     }
+
     public static Product lookupProduct(int productId) {
         for(Product product: Inventory.getAllProducts()) {
             Product matchingProduct;
@@ -52,7 +56,6 @@ public class Inventory {
         }
         return PartName;
     }
-
 
     public static ObservableList<Product> lookupProduct(String productName) {
         ObservableList<Product> ProductName = FXCollections.observableArrayList();

@@ -17,7 +17,6 @@ public class Main extends Application implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
-        System.out.println("Initialized");
 
     }
     @Override
@@ -30,8 +29,7 @@ public class Main extends Application implements Initializable {
     }
 
     public static void main(String[] args) {
-        //Sample parts
-
+        //Sample part generation
         InHouse cheese = new InHouse(1, "Cheese", 0.50, 50, 1, 100, 560);
         InHouse bun = new InHouse(2, "Bun", 1.0, 40, 1, 100, 561);
         InHouse lettuce = new InHouse(3, "Lettuce", 0.10, 13, 1, 100, 562);
@@ -46,24 +44,16 @@ public class Main extends Application implements Initializable {
         Inventory.addPart(onion);
         Inventory.addPart(patty);
 
-        //Sample product
+        //Sample product generation
         Product cheeseburger = new Product(1, "Cheese Burger", 9.99, 30, 1, 35);
+
+        Inventory.addProduct(cheeseburger);
+        cheeseburger.addAssociatedPart(cheese);
         cheeseburger.addAssociatedPart(bun);
         cheeseburger.addAssociatedPart(lettuce);
         cheeseburger.addAssociatedPart(tomato);
         cheeseburger.addAssociatedPart(onion);
         cheeseburger.addAssociatedPart(patty);
-        cheeseburger.addAssociatedPart(cheese);
-
-        Product hamburger = new Product(2, "Hamburger", 8.99, 20, 1, 35);
-        hamburger.addAssociatedPart(bun);
-        hamburger.addAssociatedPart(lettuce);
-        hamburger.addAssociatedPart(tomato);
-        hamburger.addAssociatedPart(onion);
-        hamburger.addAssociatedPart(patty);
-
-        Inventory.addProduct(cheeseburger);
-        Inventory.addProduct(hamburger);
 
         launch(args);
     }

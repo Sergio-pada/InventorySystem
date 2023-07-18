@@ -3,6 +3,7 @@ package com.example.practice;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,9 +13,11 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class ModifyPartController {
+public class ModifyPartController implements Initializable {
     Stage stage;
     Parent scene;
 
@@ -51,6 +54,7 @@ public class ModifyPartController {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
         //Retrieving Input from TextFields:
+        Inventory.deletePart(MainMenuController.getPassedPart());
         int id = Integer.parseInt(PartIdTxt.getText());
         String name = PartNameTxt.getText();
         int stock = Integer.parseInt(PartStockTxt.getText());
@@ -85,5 +89,24 @@ public class ModifyPartController {
         scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        PartIdTxt.setText(String.valueOf(MainMenuController.getPassedPart().getId()));
+        PartNameTxt.setText(MainMenuController.getPassedPart().getName());
+        PartStockTxt.setText(String.valueOf(MainMenuController.getPassedPart().getStock()));
+        PartPriceTxt.setText(String.valueOf(MainMenuController.getPassedPart().getPrice()));
+        PartMaxTxt.setText(String.valueOf(MainMenuController.getPassedPart().getMax()));
+        PartMinTxt.setText(String.valueOf(MainMenuController.getPassedPart().getMin()));
+
+        if(MainMenuController.getPassedPart() instanceof InHouse){
+            MacIdComNameTxt.setText(String.valueOf(((InHouse) MainMenuController.getPassedPart()).getMachineId()));
+            InHouseRBtn.setSelected(true);
+        }else{
+            MacIdComNameTxt.setText(String.valueOf(((OutSourced) MainMenuController.getPassedPart()).getCompanyName()));
+            OutsourcedRBtn.setSelected(true);
+        }
     }
 }

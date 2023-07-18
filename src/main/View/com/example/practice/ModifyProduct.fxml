@@ -29,7 +29,7 @@
                   <Label text="Inventory" GridPane.rowIndex="2" />
                   <Label text="Price/ Cost" GridPane.rowIndex="3" />
                   <Label text="Max" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-                  <TextField fx:id="AddProductIDTxt" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
+                  <TextField fx:id="AddProductIDTxt" disable="true" editable="false" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
                   <TextField fx:id="AddProductNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="AddProductStockTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="AddProductPriceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -45,7 +45,7 @@
             </GridPane>
             <VBox prefHeight="498.0" prefWidth="408.0">
                <children>
-                  <TextField fx:id="AddProductSearchTxt" prefHeight="26.0" prefWidth="166.0" promptText="Search by ID or Name">
+                  <TextField fx:id="AddProductSearchTxt" onAction="#OnActionSearchParts" prefHeight="26.0" prefWidth="166.0" promptText="Search by ID or Name">
                      <VBox.margin>
                         <Insets bottom="20.0" left="200.0" top="20.0" />
                      </VBox.margin></TextField>
@@ -76,7 +76,7 @@
                         <Insets bottom="20.0" top="20.0" />
                      </VBox.margin>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#onActionRemoveProduct" prefHeight="26.0" prefWidth="173.0" text="Remove Associated Product">
+                  <Button mnemonicParsing="false" onAction="#onActionRemoveProduct" prefHeight="26.0" prefWidth="173.0" text="Remove Associated Part">
                      <VBox.margin>
                         <Insets bottom="20.0" left="185.0" right="20.0" top="20.0" />
                      </VBox.margin>

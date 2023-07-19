@@ -64,7 +64,7 @@ public class MainMenuController implements Initializable {
     static Product passedProduct;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Initialized");
+
 
 
 
@@ -140,12 +140,19 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
         Product selectedProduct = ProductsTableView.getSelectionModel().getSelectedItem();
-
+        System.out.println(productParts.isEmpty());
         if (selectedProduct == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("No product selected");
             Optional<ButtonType> result = alert.showAndWait();
+        }else if(!selectedProduct.getAllAssociatedParts().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please remove all associated parts before deletion");
+
+            alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Products");
@@ -155,6 +162,7 @@ public class MainMenuController implements Initializable {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 Inventory.deleteProduct(selectedProduct);
             }
+            System.out.println(productParts.isEmpty());
         }
 
 

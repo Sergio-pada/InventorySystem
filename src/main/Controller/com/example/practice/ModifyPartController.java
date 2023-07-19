@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
@@ -53,33 +50,47 @@ public class ModifyPartController implements Initializable {
     }
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
-        //Retrieving Input from TextFields:
-        Inventory.deletePart(MainMenuController.getPassedPart());
-        int id = Integer.parseInt(PartIdTxt.getText());
-        String name = PartNameTxt.getText();
-        int stock = Integer.parseInt(PartStockTxt.getText());
-        double price = Double.parseDouble(PartPriceTxt.getText());
-        int max = Integer.parseInt(PartMaxTxt.getText());
-        int min = Integer.parseInt(PartMinTxt.getText());
-        boolean isInHouse;
+        try {
+            //Retrieving Input from TextFields:
+            Inventory.deletePart(MainMenuController.getPassedPart());
+            int id = Integer.parseInt(PartIdTxt.getText());
+            String name = PartNameTxt.getText();
+            int stock = Integer.parseInt(PartStockTxt.getText());
+            double price = Double.parseDouble(PartPriceTxt.getText());
+            int max = Integer.parseInt(PartMaxTxt.getText());
+            int min = Integer.parseInt(PartMinTxt.getText());
+            boolean isInHouse;
+            if (max > min && stock <= max && stock >= min) {
+                //Part Object Creation On Save
+                if (InHouseRBtn.isSelected()) {
+                    int machineId = Integer.parseInt(MacIdComNameTxt.getText());
+                    Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+                } else {
+                    String companyName = MacIdComNameTxt.getText();
+                    Inventory.addPart(new OutSourced(id, name, price, stock, min, max, companyName));
+                }
 
-        //Part Object Creation On Save
-        /*
-        FIND OUT HOW TO REMOVE OUTDATED OBJECT ON SAVE
-         */
-        if(InHouseRBtn.isSelected()) {
-            int machineId = Integer.parseInt(MacIdComNameTxt.getText());
-            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-        } else {
-            String companyName = MacIdComNameTxt.getText();
-            Inventory.addPart(new OutSourced(id, name, price, stock, min, max, companyName));
+                //Return to Main Menu On Save
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Minimum value should be less than maximum value and the value of inventory should be between those ");
+
+                alert.showAndWait();
+            }
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter valid data in each textfield");
+
+            alert.showAndWait();
         }
-
-        //Return to Main Menu On Save
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 

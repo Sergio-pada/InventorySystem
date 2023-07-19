@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyProductController implements Initializable {
@@ -66,7 +67,18 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     void onActionRemoveProduct(ActionEvent event) {
-        productParts.remove(RemoveProductTableView.getSelectionModel().getSelectedItem());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Products");
+        alert.setContentText("Do you want to delete this product?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            Part selectedPart = RemoveProductTableView.getSelectionModel().getSelectedItem();
+
+            productParts.remove(selectedPart);
+        }
+
+
     }
     @FXML
     void OnActionSearchParts(ActionEvent event) {
@@ -100,24 +112,43 @@ public class ModifyProductController implements Initializable {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
+        try {
+            int id = Integer.parseInt(AddProductIDTxt.getText());
+            String name = AddProductNameTxt.getText();
+            int stock = Integer.parseInt(AddProductStockTxt.getText());
+            double price = Double.parseDouble(AddProductPriceTxt.getText());
+            int max = Integer.parseInt(AddProductMaxTxt.getText());
+            int min = Integer.parseInt(AddProductMinTxt.getText());
+            boolean isInHouse;
 
-        int id = Integer.parseInt(AddProductIDTxt.getText());
-        String name = AddProductNameTxt.getText();
-        int stock = Integer.parseInt(AddProductStockTxt.getText());
-        double price = Double.parseDouble(AddProductPriceTxt.getText());
-        int max = Integer.parseInt(AddProductMaxTxt.getText());
-        int min = Integer.parseInt(AddProductMinTxt.getText());
-        boolean isInHouse;
+            if (max > min && stock <= max && stock >= min) {
 
-        Inventory.addProduct(new Product(id, name, price, stock, min, max));
+                Inventory.addProduct(new Product(id, name, price, stock, min, max));
 
 
-        //Return to Main Menu On Save
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-        Inventory.deleteProduct(MainMenuController.getPassedProduct());
+                //Return to Main Menu On Save
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+                Inventory.deleteProduct(MainMenuController.getPassedProduct());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Minimum value should be less than maximum value and the value of inventory should be between those ");
+
+                alert.showAndWait();
+            }
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter valid data in each textfield");
+
+            alert.showAndWait();
+        }
+
     }
 
     @FXML

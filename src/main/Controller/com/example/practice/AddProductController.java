@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
@@ -72,9 +73,16 @@ public class AddProductController implements Initializable {
 
     @FXML
     void onActionRemoveProduct(ActionEvent event){
-        Part selectedPart = RemoveProductTableView.getSelectionModel().getSelectedItem();
-        associatedPartsList.remove(selectedPart);
-        RemoveProductTableView.setItems(associatedPartsList);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Products");
+        alert.setContentText("Do you want to delete this product?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            Part selectedPart = RemoveProductTableView.getSelectionModel().getSelectedItem();
+            associatedPartsList.remove(selectedPart);
+            RemoveProductTableView.setItems(associatedPartsList);
+        }
     }
 
     /*
@@ -82,24 +90,43 @@ public class AddProductController implements Initializable {
      */
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
-        //Retrieving Input from TextFields:
-        int id = Integer.parseInt(AddProductIDTxt.getText());
-        String name = AddProductNameTxt.getText();
-        int stock = Integer.parseInt(AddProductStockTxt.getText());
-        double price = Double.parseDouble(AddProductPriceTxt.getText());
-        int max = Integer.parseInt(AddProductMaxTxt.getText());
-        int min = Integer.parseInt(AddProductMinTxt.getText());
-        Product product = new Product(id, name, price, stock, min, max);
-        Inventory.addProduct(product);
-        for (Part part: associatedPartsList) {
-                product.addAssociatedPart(part);
+        try {
+            //Retrieving Input from TextFields:
+            int id = Integer.parseInt(AddProductIDTxt.getText());
+            String name = AddProductNameTxt.getText();
+            int stock = Integer.parseInt(AddProductStockTxt.getText());
+            double price = Double.parseDouble(AddProductPriceTxt.getText());
+            int max = Integer.parseInt(AddProductMaxTxt.getText());
+            int min = Integer.parseInt(AddProductMinTxt.getText());
+            Product product = new Product(id, name, price, stock, min, max);
+
+            if (max > min && stock <= max && stock >= min) {
+                Inventory.addProduct(product);
+                for (Part part : associatedPartsList) {
+                    product.addAssociatedPart(part);
+                }
+                System.out.println(product.getAllAssociatedParts());
+                //Return to Main Menu On Save
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Minimum value should be less than maximum value and the value of inventory should be between those ");
+
+                alert.showAndWait();
+            }
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter valid data in each textfield");
+
+            alert.showAndWait();
         }
-        System.out.println(product.getAllAssociatedParts());
-        //Return to Main Menu On Save
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 

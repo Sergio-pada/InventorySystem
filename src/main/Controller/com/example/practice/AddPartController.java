@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -69,30 +66,47 @@ public class AddPartController implements Initializable {
     @FXML
     void onActionSavePart(ActionEvent event) throws IOException {
         //Retrieving Input from TextFields:
-        int id = Integer.parseInt(AddPartIdTxt.getText());
+        try {
+            int id = Integer.parseInt(AddPartIdTxt.getText());
+            String name = AddPartNameIdTxt.getText();
+            int stock = Integer.parseInt(AddPartInventoryTxt.getText());
+            double price = Double.parseDouble(AddPartPriceTxt.getText());
+            int max = Integer.parseInt(AddPartMaxTxt.getText());
+            int min = Integer.parseInt(AddPartMinTxt.getText());
 
-        String name = AddPartNameIdTxt.getText();
-        int stock = Integer.parseInt(AddPartInventoryTxt.getText());
-        double price = Double.parseDouble(AddPartPriceTxt.getText());
-        int max = Integer.parseInt(AddPartMaxTxt.getText());
-        int min = Integer.parseInt(AddPartMinTxt.getText());
-        boolean isInHouse;
 
+            if (max > min && stock <= max && stock >= min) {
 
-        //Part Object Creation On Save
-        if(AddPartInHouseRBtn.isSelected()) {
-            int machineId = Integer.parseInt(AddPartLabelTxt.getText());
-            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-        } else {
-            String companyName = AddPartLabelTxt.getText();
-            Inventory.addPart(new OutSourced(id, name, price, stock, min, max, companyName));
+                //Part Object Creation On Save
+                if (AddPartInHouseRBtn.isSelected()) {
+                    int machineId = Integer.parseInt(AddPartLabelTxt.getText());
+                    Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+                } else {
+                    String companyName = AddPartLabelTxt.getText();
+                    Inventory.addPart(new OutSourced(id, name, price, stock, min, max, companyName));
+                }
+
+                //Return to Main Menu On Save
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Minimum value should be less than maximum value and the value of inventory should be between those ");
+
+                alert.showAndWait();
+            }
+        }catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter valid data in each textfield");
+
+            alert.showAndWait();
         }
-
-        //Return to Main Menu On Save
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/com/example/practice/MainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 
@@ -105,4 +119,23 @@ public class AddPartController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+    @FXML
+    private boolean isInt(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    @FXML
+    private boolean isFloat(String input) {
+        try {
+            Float.parseFloat(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
+

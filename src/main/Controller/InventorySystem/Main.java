@@ -1,24 +1,19 @@
-package com.example.practice;
+package InventorySystem;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+//JavaDoc folder is located in InventorySys folder
 
+/** This class creates the inventory application and loads the main menu. It also creates sample data.
 
-
-public class Main extends Application implements Initializable {
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
-    }
+     An error occurred when I tried to add associated parts to the sample product in this method. I fixed this by removing that bit of code.
+ */
+public class Main extends Application{
+    /**This method loads our mainMenu when the application starts
+     @param stage
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("MainMenu.fxml"));
@@ -27,9 +22,11 @@ public class Main extends Application implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**This method generates sample data for the tables and launches the application
+     @param args
+     */
     public static void main(String[] args) {
-        //Sample part generation
+
         InHouse cheese = new InHouse(1, "Cheese", 0.50, 50, 1, 100, 560);
         InHouse bun = new InHouse(2, "Bun", 1.0, 40, 1, 100, 561);
         InHouse lettuce = new InHouse(3, "Lettuce", 0.10, 13, 1, 100, 562);
@@ -44,20 +41,11 @@ public class Main extends Application implements Initializable {
         Inventory.addPart(onion);
         Inventory.addPart(patty);
 
-        //Sample product generation
         Product cheeseburger = new Product(1, "Cheese Burger", 9.99, 30, 1, 35);
-
         Inventory.addProduct(cheeseburger);
-        cheeseburger.addAssociatedPart(cheese);
-        cheeseburger.addAssociatedPart(bun);
-        cheeseburger.addAssociatedPart(lettuce);
-        cheeseburger.addAssociatedPart(tomato);
-        cheeseburger.addAssociatedPart(onion);
-        cheeseburger.addAssociatedPart(patty);
 
-        launch(args);
+
+        launch();
     }
-
-
 }
 

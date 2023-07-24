@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.practice.ModifyProductController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InventorySystem.AddProductController">
    <children>
       <HBox prefHeight="320.0" prefWidth="1000.0" style="-fx-border-color: black; -fx-border-radius: 10;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <children>
@@ -36,7 +36,7 @@
                   <TextField fx:id="AddProductMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                   <TextField fx:id="AddProductMinTxt" prefHeight="26.0" prefWidth="123.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.valignment="TOP" />
                   <Label text="Min" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-                  <Label text="Modify Product" GridPane.columnIndex="1">
+                  <Label text="Add Product" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -60,7 +60,7 @@
                         <Insets bottom="20.0" top="20.0" />
                      </VBox.margin>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#onActionAddProduct" text="Add">
+                  <Button mnemonicParsing="false" onAction="#onActionAddPart" text="Add">
                      <VBox.margin>
                         <Insets bottom="20.0" left="300.0" right="20.0" top="20.0" />
                      </VBox.margin>
@@ -76,7 +76,7 @@
                         <Insets bottom="20.0" top="20.0" />
                      </VBox.margin>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#onActionRemoveProduct" prefHeight="26.0" prefWidth="173.0" text="Remove Associated Part">
+                  <Button mnemonicParsing="false" onAction="#onActionRemoveProduct" prefHeight="26.0" prefWidth="174.0" text="Remove Associated Product">
                      <VBox.margin>
                         <Insets bottom="20.0" left="185.0" right="20.0" top="20.0" />
                      </VBox.margin>

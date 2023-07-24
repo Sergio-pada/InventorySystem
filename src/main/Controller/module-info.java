@@ -3,6 +3,6 @@ module com.example.practice {
     requires javafx.fxml;
 
 
-    opens com.example.practice to javafx.fxml;
-    exports com.example.practice;
+    opens InventorySystem to javafx.fxml;
+    exports InventorySystem;
 }
